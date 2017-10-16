@@ -44,6 +44,28 @@ void MainWindow::initMapAlphabetToEncode()
     mapAlphabetToEncode.insert('Q', "00");
     mapAlphabetToEncode.insert('R', "00");
     mapAlphabetToEncode.insert('Z', "00");
+
+    // create group 2
+    mapAlphabetToEncode.insert('B', "01");
+    mapAlphabetToEncode.insert('D', "01");
+    mapAlphabetToEncode.insert('E', "01");
+    mapAlphabetToEncode.insert('K', "01");
+    mapAlphabetToEncode.insert('S', "01");
+
+    // create group 3
+    mapAlphabetToEncode.insert('A', "10");
+    mapAlphabetToEncode.insert('M', "10");
+    mapAlphabetToEncode.insert('T', "10");
+    mapAlphabetToEncode.insert('U', "10");
+    mapAlphabetToEncode.insert('V', "10");
+    mapAlphabetToEncode.insert('W', "10");
+    mapAlphabetToEncode.insert('Y', "10");
+
+    // create group 4
+    mapAlphabetToEncode.insert('H', "11");
+    mapAlphabetToEncode.insert('I', "11");
+    mapAlphabetToEncode.insert('O', "11");
+    mapAlphabetToEncode.insert('X', "11");
 }
 
 void MainWindow::printMapAlphabetToEncode()
