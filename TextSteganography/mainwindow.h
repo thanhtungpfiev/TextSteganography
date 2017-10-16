@@ -13,6 +13,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMap>
 
 namespace Ui {
 class MainWindow;
@@ -25,6 +26,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+private:
+    void initMapAlphabetToEncode();
+    void printMapAlphabetToEncode();
+
+private:
+    QMap<QChar, QString> mapAlphabetToEncode;
 
 private:
     Ui::MainWindow *ui;
