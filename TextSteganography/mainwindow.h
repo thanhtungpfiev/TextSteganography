@@ -27,12 +27,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_pushButton_encoding_clicked();
+
 private:
     void initMapAlphabetToEncode();
     void printMapAlphabetToEncode();
+    QStringList convertSecretMessageToBinaryBitStreams(const QString &secretMessage);
 
 private:
-    QMap<QChar, QString> mapAlphabetToEncode;
+    QMap<QChar, QString> mMapAlphabetToEncode;
 
 private:
     Ui::MainWindow *ui;
