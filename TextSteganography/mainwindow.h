@@ -34,9 +34,13 @@ private:
     void initMapAlphabetToEncode();
     void printMapAlphabetToEncode();
     QStringList convertSecretMessageToBinaryBitStreams(const QString &secretMessage);
+    QStringList convertTextToSentences(const QString &text);
+    void mapPairBitWithConvenientSentence(const QString &pairBits, QStringList &sentences);
+    void remove(QStringList& list, const QStringList& toDelete);
 
 private:
     QMap<QChar, QString> mMapAlphabetToEncode;
+    QStringList mSummary;
 
 private:
     Ui::MainWindow *ui;

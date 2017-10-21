@@ -89,12 +89,76 @@ QStringList MainWindow::convertSecretMessageToBinaryBitStreams(const QString &se
     return binaryBitStreams;
 }
 
+QStringList MainWindow::convertTextToSentences(const QString &text)
+{
+    QStringList sentences;
+    QRegExp rx("(\\.|\\?|\\!)");
+    sentences = text.split(rx);
+    return sentences;
+}
+
+void MainWindow::mapPairBitWithConvenientSentence(const QString &pairBits, QStringList &sentences)
+{
+    qDebug() << "pairBits: " << pairBits;
+    qDebug() << "before sentences: " << sentences;
+    int i;
+    for (i = 0; i < sentences.size(); ++i) {
+        QChar firstCharacter;
+        QString firstWord = sentences.at(i).split(" ").at(0).trimmed();
+        QString secondWord = sentences.at(i).split(" ").at(1).trimmed();
+        qDebug() << firstWord << " " << secondWord;
+        if (firstWord == "A" || firstWord == "The") {
+            firstCharacter = secondWord.at(0).toUpper();
+        } else {
+            firstCharacter = firstWord.at(0).toUpper();
+        }
+        qDebug() << "first character: " << firstCharacter
+                 << " value: " << mMapAlphabetToEncode.value(firstCharacter);
+        if (pairBits == mMapAlphabetToEncode.value(firstCharacter)) {
+            qDebug() << sentences.at(i);
+            mSummary << sentences.at(i);
+            break;
+        }
+    }
+    if (i >= sentences.size()) {
+        i = sentences.size() - 1;
+    }
+    QStringList listToDelete;
+    for (int j = 0; j <= i; ++j) {
+        listToDelete << sentences.at(j);
+    }
+    remove(sentences, listToDelete);
+    qDebug() << "listToDelete: " << listToDelete;
+    qDebug() << "after sentences: " << sentences;
+}
+
+void MainWindow::remove(QStringList &list, const QStringList &toDelete)
+{
+    QStringListIterator iter(toDelete);
+     while(iter.hasNext()){
+       list.removeAll(iter.next());
+     }
+}
+
 void MainWindow::on_pushButton_encoding_clicked()
 {
+    mSummary.clear();
     QString secretMessage = ui->lineEdit_secret_message->text();
     QStringList binaryBitStreams = convertSecretMessageToBinaryBitStreams(secretMessage);
     for (int i = 0; i < binaryBitStreams.size(); ++i) {
         qDebug() << binaryBitStreams.at(i);
     }
-
+    QStringList sentences = convertTextToSentences(ui->plainTextEdit_cover_text->toPlainText());
+    QStringList simplifiedSentences;
+    for (int i = 0; i < sentences.size(); ++i) {
+        if (sentences.at(i).simplified() == "") {
+            continue;
+        }
+        simplifiedSentences << sentences.at(i).simplified();
+    }
+    for (int i = 0; i < binaryBitStreams.size(); ++i) {
+        QString pairBits = binaryBitStreams.at(i);
+        mapPairBitWithConvenientSentence(pairBits, simplifiedSentences);
+    }
+    qDebug() << "summary: "  << mSummary;
 }
