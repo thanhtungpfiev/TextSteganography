@@ -106,14 +106,11 @@ void MainWindow::mapPairBitWithConvenientSentence(const QString &pairBits, QStri
         QChar firstCharacter;
         QString firstWord = sentences.at(i).split(" ").at(0).trimmed();
         QString secondWord = sentences.at(i).split(" ").at(1).trimmed();
-        qDebug() << firstWord << " " << secondWord;
         if (firstWord == "A" || firstWord == "The") {
             firstCharacter = secondWord.at(0).toUpper();
         } else {
             firstCharacter = firstWord.at(0).toUpper();
         }
-        qDebug() << "first character: " << firstCharacter
-                 << " value: " << mMapAlphabetToEncode.value(firstCharacter);
         if (pairBits == mMapAlphabetToEncode.value(firstCharacter)) {
             qDebug() << sentences.at(i);
             mSummary << sentences.at(i);
@@ -161,4 +158,8 @@ void MainWindow::on_pushButton_encoding_clicked()
         mapPairBitWithConvenientSentence(pairBits, simplifiedSentences);
     }
     qDebug() << "summary: "  << mSummary;
+    for (int i = 0; i < mSummary.size(); ++i) {
+        QString tempString = mSummary.at(i);
+        ui->plainTextEdit_stego_text->appendPlainText(tempString.append("."));
+    }
 }
