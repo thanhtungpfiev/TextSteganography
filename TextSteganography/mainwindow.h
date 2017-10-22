@@ -30,13 +30,17 @@ public:
 private slots:
     void on_pushButton_encoding_clicked();
 
+    void on_pushButton_decoding_clicked();
+
 private:
     void initMapAlphabetToEncode();
     void printMapAlphabetToEncode();
     QStringList convertSecretMessageToBinaryBitStreams(const QString &secretMessage);
     QStringList convertTextToSentences(const QString &text);
-    void mapPairBitWithConvenientSentence(const QString &pairBits, QStringList &sentences);
+    void convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences);
     void remove(QStringList& list, const QStringList& toDelete);
+    QStringList convertStegoTextToPairBits(const QStringList &sentences);
+    int convertBinaryAsciiToInt(const QString &binaryAscii);
 
 private:
     QMap<QChar, QString> mMapAlphabetToEncode;

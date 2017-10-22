@@ -97,7 +97,7 @@ QStringList MainWindow::convertTextToSentences(const QString &text)
     return sentences;
 }
 
-void MainWindow::mapPairBitWithConvenientSentence(const QString &pairBits, QStringList &sentences)
+void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences)
 {
     qDebug() << "pairBits: " << pairBits;
     qDebug() << "before sentences: " << sentences;
@@ -137,6 +137,33 @@ void MainWindow::remove(QStringList &list, const QStringList &toDelete)
      }
 }
 
+QStringList MainWindow::convertStegoTextToPairBits(const QStringList &sentences)
+{
+    QStringList binaryBitStreams;
+    for (int i = 0; i < sentences.size(); ++i) {
+        QChar firstCharacter;
+        QString sentence = sentences.at(i);
+        QString firstWord = sentence.split(" ").at(0);
+        QString secondWord = sentence.split(" ").at(1);
+        if (firstWord == "A" || firstWord == "The") {
+            firstCharacter = secondWord.at(0).toUpper();
+        } else {
+            firstCharacter = firstWord.at(0).toUpper();
+        }
+        binaryBitStreams << mMapAlphabetToEncode.value(firstCharacter);
+    }
+    return binaryBitStreams;
+}
+
+int MainWindow::convertBinaryAsciiToInt(const QString &binaryAscii)
+{
+    int number = 0;
+    for (int i = 0; i < binaryAscii.length(); ++i) {
+        number += QString(binaryAscii.at(i)).toInt() * pow(2, binaryAscii.length() - 1 - i);
+    }
+    return number;
+}
+
 void MainWindow::on_pushButton_encoding_clicked()
 {
     mSummary.clear();
@@ -155,11 +182,23 @@ void MainWindow::on_pushButton_encoding_clicked()
     }
     for (int i = 0; i < binaryBitStreams.size(); ++i) {
         QString pairBits = binaryBitStreams.at(i);
-        mapPairBitWithConvenientSentence(pairBits, simplifiedSentences);
+        convertPairBitsToStegoText(pairBits, simplifiedSentences);
     }
     qDebug() << "summary: "  << mSummary;
     for (int i = 0; i < mSummary.size(); ++i) {
         QString tempString = mSummary.at(i);
         ui->plainTextEdit_stego_text->appendPlainText(tempString.append("."));
     }
+}
+
+void MainWindow::on_pushButton_decoding_clicked()
+{
+    QStringList binaryBitStreams = convertStegoTextToPairBits(mSummary);
+    QString secretMessageResult;
+    for (int i = 0; i < binaryBitStreams.size(); i = i + 4) {
+        QString tempCharAtBit = binaryBitStreams.at(i) + binaryBitStreams.at(i + 1)
+                + binaryBitStreams.at(i + 2) + binaryBitStreams.at(i + 3);
+        secretMessageResult += QString(QChar(convertBinaryAsciiToInt(tempCharAtBit)));
+    }
+    ui->lineEdit_secret_message_result->setText(secretMessageResult);
 }
