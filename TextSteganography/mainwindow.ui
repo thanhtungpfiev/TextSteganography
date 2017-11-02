@@ -15,17 +15,10 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="2">
+    <item row="0" column="3">
      <widget class="QPushButton" name="pushButton_encoding">
       <property name="text">
        <string>Encoding</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Stego Text</string>
       </property>
      </widget>
     </item>
@@ -43,18 +36,25 @@
       </property>
      </widget>
     </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Stego Text</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="1">
      <widget class="QLineEdit" name="lineEdit_secret_message"/>
     </item>
-    <item row="1" column="1">
-     <widget class="QPlainTextEdit" name="plainTextEdit_cover_text"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_2">
+    <item row="3" column="3">
+     <widget class="QPushButton" name="pushButton_decoding">
       <property name="text">
-       <string>Cover Text</string>
+       <string>Decoding</string>
       </property>
      </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="lineEdit_secret_message_result"/>
     </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_4">
@@ -63,13 +63,13 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit_secret_message_result"/>
+    <item row="1" column="1">
+     <widget class="QPlainTextEdit" name="plainTextEdit_cover_text"/>
     </item>
-    <item row="3" column="2">
-     <widget class="QPushButton" name="pushButton_decoding">
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Decoding</string>
+       <string>Cover Text</string>
       </property>
      </widget>
     </item>

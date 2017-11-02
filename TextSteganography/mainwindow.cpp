@@ -13,6 +13,10 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
+#include <QMessageBox>
+
+const int MainWindow::NUMBER_OF_SECRET_MESSAGE_CHARACTERS_MAX = 10;
+const int MainWindow::NUMBER_OF_BITS_OF_CHARACTER_ASCII = 8;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -80,7 +84,12 @@ QStringList MainWindow::convertSecretMessageToBinaryBitStreams(const QString &se
     QStringList binaryBitStreams;
     for (int i = 0; i < secretMessage.size(); ++i) {
         QString characterInBits = QString::number(int(secretMessage.at(i).toLatin1()), 2);
-        characterInBits.push_front("0");
+        if (characterInBits.size() < NUMBER_OF_BITS_OF_CHARACTER_ASCII) {
+            int oldSize = characterInBits.size();
+            for (int k = 0; k < NUMBER_OF_BITS_OF_CHARACTER_ASCII - oldSize; ++k) {
+                characterInBits.push_front("0");
+            }
+        }
         for (int j = 0; j < characterInBits.size(); j = j + 2) {
             QString pairBits = QString(characterInBits.at(j)) + QString(characterInBits.at(j + 1));
             binaryBitStreams << pairBits;
@@ -101,16 +110,19 @@ void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList
 {
     qDebug() << "pairBits: " << pairBits;
     qDebug() << "before sentences: " << sentences;
+
     int i;
     for (i = 0; i < sentences.size(); ++i) {
+        QString sentence = sentences.at(i);
         QChar firstCharacter;
-        QString firstWord = sentences.at(i).split(" ").at(0).trimmed();
-        QString secondWord = sentences.at(i).split(" ").at(1).trimmed();
-        if (firstWord == "A" || firstWord == "The") {
+        QString firstWord = sentence.split(" ").at(0).trimmed();
+        if ((firstWord == "A" || firstWord == "The") && (sentence.split(" ").size() > 2) ) {
+            QString secondWord = sentence.split(" ").at(1).trimmed();
             firstCharacter = secondWord.at(0).toUpper();
         } else {
             firstCharacter = firstWord.at(0).toUpper();
         }
+
         if (pairBits == mMapAlphabetToEncode.value(firstCharacter)) {
             qDebug() << sentences.at(i);
             mSummary << sentences.at(i);
@@ -164,15 +176,66 @@ int MainWindow::convertBinaryAsciiToInt(const QString &binaryAscii)
     return number;
 }
 
+void MainWindow::resetApp()
+{
+    ui->lineEdit_secret_message->clear();
+    ui->plainTextEdit_cover_text->clear();
+    ui->plainTextEdit_cover_text->clear();
+    ui->lineEdit_secret_message_result->clear();
+    mSummary.clear();
+}
+
+bool MainWindow::checkConditionOfSecretMessge(const QString &secretMessage)
+{
+    if (secretMessage.isEmpty()) {
+        QMessageBox message(QMessageBox::Warning, "Notification", "Secret message is not empty");
+        message.exec();
+        return false;
+    }
+
+    if (secretMessage.size() > NUMBER_OF_SECRET_MESSAGE_CHARACTERS_MAX) {
+        QMessageBox message(QMessageBox::Warning, "Notification", "Secret message is not longer than 10 characters");
+        message.exec();
+        return false;
+    }
+
+    return true;
+}
+
+bool MainWindow::checkConditionOfCoverText(const QString &coverText)
+{
+    if (coverText.isEmpty()) {
+        QMessageBox message(QMessageBox::Warning, "Notification", "Cover text is not empty");
+        message.exec();
+        return false;
+    }
+    return true;
+}
+
 void MainWindow::on_pushButton_encoding_clicked()
 {
     mSummary.clear();
+    ui->plainTextEdit_stego_text->clear();
+
     QString secretMessage = ui->lineEdit_secret_message->text();
+
+    if (!checkConditionOfSecretMessge(ui->lineEdit_secret_message->text())) {
+        return;
+    }
+
     QStringList binaryBitStreams = convertSecretMessageToBinaryBitStreams(secretMessage);
+
+
     for (int i = 0; i < binaryBitStreams.size(); ++i) {
         qDebug() << binaryBitStreams.at(i);
     }
-    QStringList sentences = convertTextToSentences(ui->plainTextEdit_cover_text->toPlainText());
+
+    QString coverText = ui->plainTextEdit_cover_text->toPlainText();
+
+    if (!checkConditionOfCoverText(coverText)) {
+        return;
+    }
+    QStringList sentences = convertTextToSentences(coverText);
     QStringList simplifiedSentences;
     for (int i = 0; i < sentences.size(); ++i) {
         if (sentences.at(i).simplified() == "") {
@@ -183,6 +246,13 @@ void MainWindow::on_pushButton_encoding_clicked()
     for (int i = 0; i < binaryBitStreams.size(); ++i) {
         QString pairBits = binaryBitStreams.at(i);
         convertPairBitsToStegoText(pairBits, simplifiedSentences);
+        if (i != binaryBitStreams.size() - 1) {
+            if (simplifiedSentences.isEmpty()) {
+                QMessageBox message(QMessageBox::Warning, "Notification", "Cover text is not enough capacity to stego secret message");
+                message.exec();
+                return;
+            }
+        }
     }
     qDebug() << "summary: "  << mSummary;
     for (int i = 0; i < mSummary.size(); ++i) {

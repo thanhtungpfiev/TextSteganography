@@ -41,10 +41,19 @@ private:
     void remove(QStringList& list, const QStringList& toDelete);
     QStringList convertStegoTextToPairBits(const QStringList &sentences);
     int convertBinaryAsciiToInt(const QString &binaryAscii);
+    void resetApp();
+
+    // validate
+    bool checkConditionOfSecretMessge(const QString &secretMessage);
+    bool checkConditionOfCoverText(const QString &coverText);
 
 private:
     QMap<QChar, QString> mMapAlphabetToEncode;
     QStringList mSummary;
+
+private:
+    static const int NUMBER_OF_SECRET_MESSAGE_CHARACTERS_MAX;
+    static const int NUMBER_OF_BITS_OF_CHARACTER_ASCII;
 
 private:
     Ui::MainWindow *ui;
