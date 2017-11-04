@@ -32,6 +32,8 @@ private slots:
 
     void on_pushButton_decoding_clicked();
 
+    void on_pushButton_browse_file_clicked();
+
 private:
     void initMapAlphabetToEncode();
     void printMapAlphabetToEncode();

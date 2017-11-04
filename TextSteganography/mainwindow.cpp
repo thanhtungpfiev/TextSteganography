@@ -14,6 +14,7 @@
 
 #include <QDebug>
 #include <QMessageBox>
+#include <QFileDialog>
 
 const int MainWindow::NUMBER_OF_SECRET_MESSAGE_CHARACTERS_MAX = 10;
 const int MainWindow::NUMBER_OF_BITS_OF_CHARACTER_ASCII = 8;
@@ -26,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(trUtf8("Text Steganography Simulation"));
 
     initMapAlphabetToEncode();
-//    printMapAlphabetToEncode();
+    //    printMapAlphabetToEncode();
 
 }
 
@@ -144,9 +145,9 @@ void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList
 void MainWindow::remove(QStringList &list, const QStringList &toDelete)
 {
     QStringListIterator iter(toDelete);
-     while(iter.hasNext()){
-       list.removeAll(iter.next());
-     }
+    while(iter.hasNext()){
+        list.removeAll(iter.next());
+    }
 }
 
 QStringList MainWindow::convertStegoTextToPairBits(const QStringList &sentences)
@@ -271,4 +272,20 @@ void MainWindow::on_pushButton_decoding_clicked()
         secretMessageResult += QString(QChar(convertBinaryAsciiToInt(tempCharAtBit)));
     }
     ui->lineEdit_secret_message_result->setText(secretMessageResult);
+}
+
+void MainWindow::on_pushButton_browse_file_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), qApp->applicationDirPath(), tr("Text Files (*.txt)"));
+    QFile f(fileName);
+    if (!f.open(QFile::ReadOnly)) {
+        QMessageBox message(QMessageBox::Critical, "Notification", "Cannot find this file");
+        message.exec();
+        return;
+    }
+    QTextStream in(&f);
+    ui->plainTextEdit_cover_text->document()->setPlainText(in.readAll());
+//    qDebug() << f.size() << in.readAll();
+    f.close();
 }
