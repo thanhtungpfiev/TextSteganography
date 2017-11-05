@@ -154,11 +154,11 @@ QStringList MainWindow::convertStegoTextToPairBits(const QStringList &sentences)
 {
     QStringList binaryBitStreams;
     for (int i = 0; i < sentences.size(); ++i) {
-        QChar firstCharacter;
         QString sentence = sentences.at(i);
-        QString firstWord = sentence.split(" ").at(0);
-        QString secondWord = sentence.split(" ").at(1);
-        if (firstWord == "A" || firstWord == "The") {
+        QChar firstCharacter;
+        QString firstWord = sentence.split(" ").at(0).trimmed();
+        if ((firstWord == "A" || firstWord == "The") && (sentence.split(" ").size() > 2) ) {
+            QString secondWord = sentence.split(" ").at(1).trimmed();
             firstCharacter = secondWord.at(0).toUpper();
         } else {
             firstCharacter = firstWord.at(0).toUpper();
