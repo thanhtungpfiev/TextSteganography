@@ -27,7 +27,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(trUtf8("Text Steganography Simulation"));
 
     initMapAlphabetToEncode();
+    initMapAlphabetVietnameseToEncode();
     //    printMapAlphabetToEncode();
+    printMapAlphabetVietnameseToEncode();
 
 }
 
@@ -73,9 +75,56 @@ void MainWindow::initMapAlphabetToEncode()
     mMapAlphabetToEncode.insert('X', "11");
 }
 
+void MainWindow::initMapAlphabetVietnameseToEncode()
+{
+    // create group 1
+    mMapAlphabetVietnameseToEncode.insert('C', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ê', "00");
+    mMapAlphabetVietnameseToEncode.insert('G', "00");
+    mMapAlphabetVietnameseToEncode.insert('L', "00");
+    mMapAlphabetVietnameseToEncode.insert('N', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ơ', "00");
+    mMapAlphabetVietnameseToEncode.insert('P', "00");
+    mMapAlphabetVietnameseToEncode.insert('Q', "00");
+    mMapAlphabetVietnameseToEncode.insert('R', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ư', "00");
+
+    // create group 2
+    mMapAlphabetVietnameseToEncode.insert('B', "01");
+    mMapAlphabetVietnameseToEncode.insert('D', "01");
+    mMapAlphabetVietnameseToEncode.insert('Đ', "01");
+    mMapAlphabetVietnameseToEncode.insert('E', "01");
+    mMapAlphabetVietnameseToEncode.insert('K', "01");
+    mMapAlphabetVietnameseToEncode.insert('S', "01");
+
+    // create group 3
+    mMapAlphabetVietnameseToEncode.insert('A', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ă', "10");
+    mMapAlphabetVietnameseToEncode.insert('Â', "10");
+    mMapAlphabetVietnameseToEncode.insert('M', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ô', "10");
+    mMapAlphabetVietnameseToEncode.insert('T', "10");
+    mMapAlphabetVietnameseToEncode.insert('U', "10");
+    mMapAlphabetVietnameseToEncode.insert('V', "10");
+    mMapAlphabetVietnameseToEncode.insert('Y', "10");
+
+    // create group 4
+    mMapAlphabetVietnameseToEncode.insert('H', "11");
+    mMapAlphabetVietnameseToEncode.insert('I', "11");
+    mMapAlphabetVietnameseToEncode.insert('O', "11");
+    mMapAlphabetVietnameseToEncode.insert('X', "11");
+}
+
 void MainWindow::printMapAlphabetToEncode()
 {
     for (QMap<QChar, QString>::const_iterator iter = mMapAlphabetToEncode.begin(); iter != mMapAlphabetToEncode.end(); ++iter) {
+        qDebug() << "key: " << iter.key() << " value: " << iter.value();
+    }
+}
+
+void MainWindow::printMapAlphabetVietnameseToEncode()
+{
+    for (QMap<QChar, QString>::const_iterator iter = mMapAlphabetVietnameseToEncode.begin(); iter != mMapAlphabetVietnameseToEncode.end(); ++iter) {
         qDebug() << "key: " << iter.key() << " value: " << iter.value();
     }
 }
