@@ -334,6 +334,7 @@ void MainWindow::on_pushButton_browse_file_clicked()
         return;
     }
     QTextStream in(&f);
+    in.setCodec("UTF-8");
     ui->plainTextEdit_cover_text->document()->setPlainText(in.readAll());
 //    qDebug() << f.size() << in.readAll();
     f.close();
