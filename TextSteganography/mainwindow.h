@@ -35,10 +35,7 @@ private slots:
     void on_pushButton_browse_file_clicked();
 
 private:
-    void initMapAlphabetToEncode();
     void initMapAlphabetVietnameseToEncode();
-    void printMapAlphabetToEncode();
-    void printMapAlphabetVietnameseToEncode();
     QStringList convertSecretMessageToBinaryBitStreams(const QString &secretMessage);
     QStringList convertTextToSentences(const QString &text);
     void convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences);
@@ -52,7 +49,6 @@ private:
     bool checkConditionOfCoverText(const QString &coverText);
 
 private:
-    QMap<QChar, QString> mMapAlphabetToEncode;
     QMap<QChar, QString> mMapAlphabetVietnameseToEncode;
     QStringList mSummary;
 

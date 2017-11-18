@@ -26,10 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle(trUtf8("Text Steganography Simulation"));
 
-    initMapAlphabetToEncode();
     initMapAlphabetVietnameseToEncode();
-    //    printMapAlphabetToEncode();
-    printMapAlphabetVietnameseToEncode();
 
 }
 
@@ -38,58 +35,72 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::initMapAlphabetToEncode()
-{
-    // create group 1
-    mMapAlphabetToEncode.insert('C', "00");
-    mMapAlphabetToEncode.insert('F', "00");
-    mMapAlphabetToEncode.insert('G', "00");
-    mMapAlphabetToEncode.insert('J', "00");
-    mMapAlphabetToEncode.insert('L', "00");
-    mMapAlphabetToEncode.insert('N', "00");
-    mMapAlphabetToEncode.insert('P', "00");
-    mMapAlphabetToEncode.insert('Q', "00");
-    mMapAlphabetToEncode.insert('R', "00");
-    mMapAlphabetToEncode.insert('Z', "00");
-
-    // create group 2
-    mMapAlphabetToEncode.insert('B', "01");
-    mMapAlphabetToEncode.insert('D', "01");
-    mMapAlphabetToEncode.insert('E', "01");
-    mMapAlphabetToEncode.insert('K', "01");
-    mMapAlphabetToEncode.insert('S', "01");
-
-    // create group 3
-    mMapAlphabetToEncode.insert('A', "10");
-    mMapAlphabetToEncode.insert('M', "10");
-    mMapAlphabetToEncode.insert('T', "10");
-    mMapAlphabetToEncode.insert('U', "10");
-    mMapAlphabetToEncode.insert('V', "10");
-    mMapAlphabetToEncode.insert('W', "10");
-    mMapAlphabetToEncode.insert('Y', "10");
-
-    // create group 4
-    mMapAlphabetToEncode.insert('H', "11");
-    mMapAlphabetToEncode.insert('I', "11");
-    mMapAlphabetToEncode.insert('O', "11");
-    mMapAlphabetToEncode.insert('X', "11");
-}
-
 void MainWindow::initMapAlphabetVietnameseToEncode()
 {
-    // create group 1
+    // create group 1 - no reflaction
+    mMapAlphabetVietnameseToEncode.insert('Á', "00");
+    mMapAlphabetVietnameseToEncode.insert('À', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ã', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ả', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ắ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ằ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ẵ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ẳ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ấ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ầ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ẫ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ẩ', "00");
     mMapAlphabetVietnameseToEncode.insert('C', "00");
+    mMapAlphabetVietnameseToEncode.insert('É', "00");
+    mMapAlphabetVietnameseToEncode.insert('È', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ẽ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ẹ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ẻ', "00");
     mMapAlphabetVietnameseToEncode.insert('Ê', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ế', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ề', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ễ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ệ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ể', "00");
+    mMapAlphabetVietnameseToEncode.insert('Í', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ì', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ĩ', "00");
     mMapAlphabetVietnameseToEncode.insert('G', "00");
     mMapAlphabetVietnameseToEncode.insert('L', "00");
     mMapAlphabetVietnameseToEncode.insert('N', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ó', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ò', "00");
+    mMapAlphabetVietnameseToEncode.insert('Õ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ỏ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ố', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ồ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ỗ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ổ', "00");
     mMapAlphabetVietnameseToEncode.insert('Ơ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ớ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ờ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ỡ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ợ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ở', "00");
     mMapAlphabetVietnameseToEncode.insert('P', "00");
     mMapAlphabetVietnameseToEncode.insert('Q', "00");
     mMapAlphabetVietnameseToEncode.insert('R', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ú', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ù', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ũ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ủ', "00");
     mMapAlphabetVietnameseToEncode.insert('Ư', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ứ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ừ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ữ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ự', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ử', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ý', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ỳ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ỹ', "00");
+    mMapAlphabetVietnameseToEncode.insert('Ỷ', "00");
 
-    // create group 2
+    // create group 2 - reflaction based on axis X
     mMapAlphabetVietnameseToEncode.insert('B', "01");
     mMapAlphabetVietnameseToEncode.insert('D', "01");
     mMapAlphabetVietnameseToEncode.insert('Đ', "01");
@@ -97,36 +108,30 @@ void MainWindow::initMapAlphabetVietnameseToEncode()
     mMapAlphabetVietnameseToEncode.insert('K', "01");
     mMapAlphabetVietnameseToEncode.insert('S', "01");
 
-    // create group 3
+    // create group 3 - reflaction based on axis Y
     mMapAlphabetVietnameseToEncode.insert('A', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ạ', "10");
     mMapAlphabetVietnameseToEncode.insert('Ă', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ặ', "10");
     mMapAlphabetVietnameseToEncode.insert('Â', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ậ', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ị', "00");
     mMapAlphabetVietnameseToEncode.insert('M', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ọ', "10");
     mMapAlphabetVietnameseToEncode.insert('Ô', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ộ', "10");
     mMapAlphabetVietnameseToEncode.insert('T', "10");
     mMapAlphabetVietnameseToEncode.insert('U', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ụ', "10");
     mMapAlphabetVietnameseToEncode.insert('V', "10");
     mMapAlphabetVietnameseToEncode.insert('Y', "10");
+    mMapAlphabetVietnameseToEncode.insert('Ỵ', "10");
 
-    // create group 4
+    // create group 4 - both reflaction
     mMapAlphabetVietnameseToEncode.insert('H', "11");
     mMapAlphabetVietnameseToEncode.insert('I', "11");
     mMapAlphabetVietnameseToEncode.insert('O', "11");
     mMapAlphabetVietnameseToEncode.insert('X', "11");
-}
-
-void MainWindow::printMapAlphabetToEncode()
-{
-    for (QMap<QChar, QString>::const_iterator iter = mMapAlphabetToEncode.begin(); iter != mMapAlphabetToEncode.end(); ++iter) {
-        qDebug() << "key: " << iter.key() << " value: " << iter.value();
-    }
-}
-
-void MainWindow::printMapAlphabetVietnameseToEncode()
-{
-    for (QMap<QChar, QString>::const_iterator iter = mMapAlphabetVietnameseToEncode.begin(); iter != mMapAlphabetVietnameseToEncode.end(); ++iter) {
-        qDebug() << "key: " << iter.key() << " value: " << iter.value();
-    }
 }
 
 QStringList MainWindow::convertSecretMessageToBinaryBitStreams(const QString &secretMessage)
@@ -173,7 +178,7 @@ void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList
             firstCharacter = firstWord.at(0).toUpper();
         }
 
-        if (pairBits == mMapAlphabetToEncode.value(firstCharacter)) {
+        if (pairBits == mMapAlphabetVietnameseToEncode.value(firstCharacter)) {
             qDebug() << sentences.at(i);
             mSummary << sentences.at(i);
             break;
@@ -212,7 +217,7 @@ QStringList MainWindow::convertStegoTextToPairBits(const QStringList &sentences)
         } else {
             firstCharacter = firstWord.at(0).toUpper();
         }
-        binaryBitStreams << mMapAlphabetToEncode.value(firstCharacter);
+        binaryBitStreams << mMapAlphabetVietnameseToEncode.value(firstCharacter);
     }
     return binaryBitStreams;
 }
