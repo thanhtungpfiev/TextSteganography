@@ -56,7 +56,8 @@ private:
 private:
     QMap<QString, QString> mMapAlphabetVietnameseToEncode;
     QMap<QString, QString> mMapAlphabetVietnameseWithUtf8Value;
-    QStringList mSummary;
+    QStringList mSummaryBlob;
+    QList<QStringList> mSummary;
 
 private:
     static const int NUMBER_OF_SECRET_MESSAGE_CHARACTERS_MAX;

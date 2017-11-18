@@ -460,24 +460,19 @@ QStringList MainWindow::convertTextToSentences(const QString &text)
 
 void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences)
 {
-    qDebug() << "pairBits: " << pairBits;
-    qDebug() << "before sentences: " << sentences;
+    //    qDebug() << "pairBits: " << pairBits;
+    //    qDebug() << "before sentences: " << sentences;
 
     int i;
     for (i = 0; i < sentences.size(); ++i) {
         QString sentence = sentences.at(i);
-        QChar firstCharacter;
-        QString firstWord = sentence.split(" ").at(0).trimmed();
-        if ((firstWord == "A" || firstWord == "The") && (sentence.split(" ").size() > 2) ) {
-            QString secondWord = sentence.split(" ").at(1).trimmed();
-            firstCharacter = secondWord.at(0).toUpper();
-        } else {
-            firstCharacter = firstWord.at(0).toUpper();
+        if (sentence.isEmpty()) {
+            continue;
         }
-
-        if (pairBits == mMapAlphabetVietnameseToEncode.value(firstCharacter)) {
+        QChar firstCharacter = sentence.at(0);
+        if (pairBits == mMapAlphabetVietnameseToEncode.value(QString(firstCharacter)).toUtf8()) {
             qDebug() << sentences.at(i);
-            mSummary << sentences.at(i);
+            mSummaryBlob << sentences.at(i);
             break;
         }
     }
@@ -489,8 +484,8 @@ void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList
         listToDelete << sentences.at(j);
     }
     remove(sentences, listToDelete);
-    qDebug() << "listToDelete: " << listToDelete;
-    qDebug() << "after sentences: " << sentences;
+    //    qDebug() << "listToDelete: " << listToDelete;
+    //    qDebug() << "after sentences: " << sentences;
 }
 
 void MainWindow::remove(QStringList &list, const QStringList &toDelete)
@@ -506,14 +501,10 @@ QStringList MainWindow::convertStegoTextToPairBits(const QStringList &sentences)
     QStringList binaryBitStreams;
     for (int i = 0; i < sentences.size(); ++i) {
         QString sentence = sentences.at(i);
-        QChar firstCharacter;
-        QString firstWord = sentence.split(" ").at(0).trimmed();
-        if ((firstWord == "A" || firstWord == "The") && (sentence.split(" ").size() > 2) ) {
-            QString secondWord = sentence.split(" ").at(1).trimmed();
-            firstCharacter = secondWord.at(0).toUpper();
-        } else {
-            firstCharacter = firstWord.at(0).toUpper();
+        if (sentence.isEmpty()) {
+            continue;
         }
+        QChar firstCharacter = sentence.at(0);
         binaryBitStreams << mMapAlphabetVietnameseToEncode.value(firstCharacter);
     }
     return binaryBitStreams;
@@ -566,6 +557,7 @@ bool MainWindow::checkConditionOfCoverText(const QString &coverText)
 
 void MainWindow::on_pushButton_encoding_clicked()
 {
+    mSummaryBlob.clear();
     mSummary.clear();
     ui->plainTextEdit_stego_text->clear();
 
@@ -591,31 +583,60 @@ void MainWindow::on_pushButton_encoding_clicked()
         simplifiedSentences << sentences.at(i).simplified();
     }
     for (int i = 0; i < binaryBitStreams.size(); ++i) {
-        QString pairBits = binaryBitStreams.at(i);
-        convertPairBitsToStegoText(pairBits, simplifiedSentences);
-        if (i != binaryBitStreams.size() - 1) {
-            if (simplifiedSentences.isEmpty()) {
-                QMessageBox message(QMessageBox::Warning, "Notification", "Cover text is not enough capacity to stego secret message");
-                message.exec();
-                return;
+        QString binaryBitStream = binaryBitStreams.at(i);
+        QStringList pairBitstreams = splitBitStreamsToPairBits(binaryBitStream);
+        for (int j = 0; j < pairBitstreams.size(); ++j) {
+            QString pairBits = pairBitstreams.at(j);
+            convertPairBitsToStegoText(pairBits, simplifiedSentences);
+            if (j != pairBitstreams.size() - 1) {
+                if (simplifiedSentences.isEmpty()) {
+                    QMessageBox message(QMessageBox::Warning, "Notification", "Cover text is not enough capacity to stego secret message");
+                    message.exec();
+                    return;
+                }
             }
         }
+        qDebug() << "mSummaryBlob: " << mSummaryBlob;
+        for (int i = 0; i < mSummaryBlob.size(); ++i) {
+            QString tempString = mSummaryBlob.at(i);
+            ui->plainTextEdit_stego_text->appendPlainText(tempString.append("."));
+        }
+        mSummary.push_back(mSummaryBlob);
+        mSummaryBlob.clear();
     }
-    qDebug() << "summary: "  << mSummary;
     for (int i = 0; i < mSummary.size(); ++i) {
-        QString tempString = mSummary.at(i);
-        ui->plainTextEdit_stego_text->appendPlainText(tempString.append("."));
+        qDebug() << mSummary.at(i);
     }
 }
 
 void MainWindow::on_pushButton_decoding_clicked()
 {
-    QStringList binaryBitStreams = convertStegoTextToPairBits(mSummary);
     QString secretMessageResult;
-    for (int i = 0; i < binaryBitStreams.size(); i = i + 4) {
-        QString tempCharAtBit = binaryBitStreams.at(i) + binaryBitStreams.at(i + 1)
-                + binaryBitStreams.at(i + 2) + binaryBitStreams.at(i + 3);
-        secretMessageResult += QString(QChar(convertBinaryAsciiToInt(tempCharAtBit)));
+    for (int i = 0; i < mSummary.size(); ++i) {
+        QStringList blob = mSummary.at(i);
+        QStringList binaryBitStreams = convertStegoTextToPairBits(blob);
+        if (binaryBitStreams.size() == NUMBER_OF_BITS_OF_CHARACTER_ASCII / 2) {
+            for (int j = 0; j < binaryBitStreams.size(); j = j + 4) {
+                QString tempCharAtBit = binaryBitStreams.at(j) + binaryBitStreams.at(j + 1)
+                        + binaryBitStreams.at(j + 2) + binaryBitStreams.at(j + 3);
+                secretMessageResult += QString(QChar(convertBinaryAsciiToInt(tempCharAtBit)));
+            }
+        } else if (binaryBitStreams.size() == NUMBER_OF_BITS_OF_CHARACTER_UTF8_TYPE_I / 2
+                   || binaryBitStreams.size() == NUMBER_OF_BITS_OF_CHARACTER_UTF8_TYPE_II / 2) {
+            QString tempCharAtBit;
+            for (int j = 0; j <binaryBitStreams.size(); ++j) {
+                tempCharAtBit += binaryBitStreams.at(j);
+            }
+            for (QMap<QString, QString>::const_iterator iter =  mMapAlphabetVietnameseWithUtf8Value.begin();
+                 iter != mMapAlphabetVietnameseWithUtf8Value.end(); ++iter) {
+                if (iter.value() == tempCharAtBit) {
+                    secretMessageResult += iter.key();
+                    break;
+                }
+            }
+        } else {
+            continue;
+        }
     }
     ui->lineEdit_secret_message_result->setText(secretMessageResult);
 }
@@ -623,7 +644,7 @@ void MainWindow::on_pushButton_decoding_clicked()
 void MainWindow::on_pushButton_browse_file_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open File"), qApp->applicationDirPath(), tr("Text Files (*.txt)"));
+                                                    tr("Open File"), qApp->applicationDirPath(), tr("Text Files (*.txt)"));
     QFile f(fileName);
     if (!f.open(QFile::ReadOnly)) {
         QMessageBox message(QMessageBox::Critical, "Notification", "Cannot find this file");
@@ -633,6 +654,6 @@ void MainWindow::on_pushButton_browse_file_clicked()
     QTextStream in(&f);
     in.setCodec("UTF-8");
     ui->plainTextEdit_cover_text->document()->setPlainText(in.readAll());
-//    qDebug() << f.size() << in.readAll();
+    //    qDebug() << f.size() << in.readAll();
     f.close();
 }
