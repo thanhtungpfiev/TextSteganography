@@ -52,7 +52,6 @@ void MainWindow::initMapAlphabetVietnameseToEncode()
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Ầ"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Ẫ"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Ẩ"), "00");
-    mMapAlphabetVietnameseToEncode.insert(trUtf8("C"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("É"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("È"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Ẽ"), "00");
@@ -88,6 +87,7 @@ void MainWindow::initMapAlphabetVietnameseToEncode()
     mMapAlphabetVietnameseToEncode.insert(trUtf8("P"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Q"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("R"), "00");
+    mMapAlphabetVietnameseToEncode.insert(trUtf8("S"), "01");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Ú"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Ù"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Ũ"), "00");
@@ -105,11 +105,11 @@ void MainWindow::initMapAlphabetVietnameseToEncode()
 
     // create group 2 - reflaction based on axis X
     mMapAlphabetVietnameseToEncode.insert(trUtf8("B"), "01");
+    mMapAlphabetVietnameseToEncode.insert(trUtf8("C"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("D"), "01");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Đ"), "01");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("E"), "01");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("K"), "01");
-    mMapAlphabetVietnameseToEncode.insert(trUtf8("S"), "01");
 
     // create group 3 - reflaction based on axis Y
     mMapAlphabetVietnameseToEncode.insert(trUtf8("A"), "10");
