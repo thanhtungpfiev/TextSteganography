@@ -49,8 +49,8 @@ void MainWindow::initMapAlphabetToEncode()
     mMapAlphabetToEncode.insert('Z', "00");
 
     // create group 2 - reflaction based on axis X
-    mMapAlphabetToEncode.insert('C', "00");
     mMapAlphabetToEncode.insert('B', "01");
+    mMapAlphabetToEncode.insert('C', "00");
     mMapAlphabetToEncode.insert('D', "01");
     mMapAlphabetToEncode.insert('E', "01");
     mMapAlphabetToEncode.insert('K', "01");
