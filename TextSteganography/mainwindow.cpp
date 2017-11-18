@@ -38,8 +38,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::initMapAlphabetToEncode()
 {
-    // create group 1
-    mMapAlphabetToEncode.insert('C', "00");
+    // create group 1 - no reflaction
     mMapAlphabetToEncode.insert('F', "00");
     mMapAlphabetToEncode.insert('G', "00");
     mMapAlphabetToEncode.insert('J', "00");
@@ -48,16 +47,17 @@ void MainWindow::initMapAlphabetToEncode()
     mMapAlphabetToEncode.insert('P', "00");
     mMapAlphabetToEncode.insert('Q', "00");
     mMapAlphabetToEncode.insert('R', "00");
+    mMapAlphabetToEncode.insert('S', "01");
     mMapAlphabetToEncode.insert('Z', "00");
 
-    // create group 2
+    // create group 2 - reflaction based on axis X
+    mMapAlphabetToEncode.insert('C', "00");
     mMapAlphabetToEncode.insert('B', "01");
     mMapAlphabetToEncode.insert('D', "01");
     mMapAlphabetToEncode.insert('E', "01");
     mMapAlphabetToEncode.insert('K', "01");
-    mMapAlphabetToEncode.insert('S', "01");
 
-    // create group 3
+    // create group 3 - reflaction based on axis Y
     mMapAlphabetToEncode.insert('A', "10");
     mMapAlphabetToEncode.insert('M', "10");
     mMapAlphabetToEncode.insert('T', "10");
@@ -66,7 +66,7 @@ void MainWindow::initMapAlphabetToEncode()
     mMapAlphabetToEncode.insert('W', "10");
     mMapAlphabetToEncode.insert('Y', "10");
 
-    // create group 4
+    // create group 4 - both reflaction
     mMapAlphabetToEncode.insert('H', "11");
     mMapAlphabetToEncode.insert('I', "11");
     mMapAlphabetToEncode.insert('O', "11");
