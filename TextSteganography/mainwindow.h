@@ -14,6 +14,8 @@
 
 #include <QMainWindow>
 #include <QMap>
+#include <QObject>
+#include <QString>
 
 namespace Ui {
 class MainWindow;
@@ -37,6 +39,8 @@ private slots:
 private:
     void initMapAlphabetVietnameseToEncode();
     QStringList convertSecretMessageToBinaryBitStreams(const QString &secretMessage);
+    QString convertCharacterToBinaryAscii8bits(const QChar &character);
+    QStringList splitBitStreamsToPairBits(const QString &bitStreams);
     QStringList convertTextToSentences(const QString &text);
     void convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences);
     void remove(QStringList& list, const QStringList& toDelete);
@@ -49,12 +53,13 @@ private:
     bool checkConditionOfCoverText(const QString &coverText);
 
 private:
-    QMap<QChar, QString> mMapAlphabetVietnameseToEncode;
+    QMap<QString, QString> mMapAlphabetVietnameseToEncode;
     QStringList mSummary;
 
 private:
     static const int NUMBER_OF_SECRET_MESSAGE_CHARACTERS_MAX;
     static const int NUMBER_OF_BITS_OF_CHARACTER_ASCII;
+    static const int NUMBER_OF_BITS_OF_CHARACTER_UTF8;
 
 private:
     Ui::MainWindow *ui;
