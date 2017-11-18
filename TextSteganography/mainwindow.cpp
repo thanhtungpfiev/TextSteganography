@@ -27,8 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(trUtf8("Text Steganography Simulation"));
 
     initMapAlphabetToEncode();
-    //    printMapAlphabetToEncode();
-
 }
 
 MainWindow::~MainWindow()
@@ -73,26 +71,34 @@ void MainWindow::initMapAlphabetToEncode()
     mMapAlphabetToEncode.insert('X', "11");
 }
 
-void MainWindow::printMapAlphabetToEncode()
-{
-    for (QMap<QChar, QString>::const_iterator iter = mMapAlphabetToEncode.begin(); iter != mMapAlphabetToEncode.end(); ++iter) {
-        qDebug() << "key: " << iter.key() << " value: " << iter.value();
-    }
-}
-
 QStringList MainWindow::convertSecretMessageToBinaryBitStreams(const QString &secretMessage)
 {
     QStringList binaryBitStreams;
     for (int i = 0; i < secretMessage.size(); ++i) {
-        QString characterInBits = QString::number(int(secretMessage.at(i).toLatin1()), 2);
-        if (characterInBits.size() < NUMBER_OF_BITS_OF_CHARACTER_ASCII) {
-            int oldSize = characterInBits.size();
-            for (int k = 0; k < NUMBER_OF_BITS_OF_CHARACTER_ASCII - oldSize; ++k) {
-                characterInBits.push_front("0");
-            }
+        QString characterInBits = convertCharacterToBinaryAscii8bits(secretMessage.at(i));
+        binaryBitStreams << splitBitStreamsToPairBits(characterInBits);
+    }
+    return binaryBitStreams;
+}
+
+QString MainWindow::convertCharacterToBinaryAscii8bits(const QChar &character)
+{
+    QString characterInBits = QString::number(int(character.toLatin1()), 2);
+    if (characterInBits.size() < NUMBER_OF_BITS_OF_CHARACTER_ASCII) {
+        int oldSize = characterInBits.size();
+        for (int k = 0; k < NUMBER_OF_BITS_OF_CHARACTER_ASCII - oldSize; ++k) {
+            characterInBits.push_front("0");
         }
-        for (int j = 0; j < characterInBits.size(); j = j + 2) {
-            QString pairBits = QString(characterInBits.at(j)) + QString(characterInBits.at(j + 1));
+    }
+    return characterInBits;
+}
+
+QStringList MainWindow::splitBitStreamsToPairBits(const QString &bitStreams)
+{
+    QStringList binaryBitStreams;
+    if (bitStreams.size() == NUMBER_OF_BITS_OF_CHARACTER_ASCII) {
+        for (int j = 0; j < bitStreams.size(); j = j + 2) {
+            QString pairBits = QString(bitStreams.at(j)) + QString(bitStreams.at(j + 1));
             binaryBitStreams << pairBits;
         }
     }
@@ -220,16 +226,11 @@ void MainWindow::on_pushButton_encoding_clicked()
 
     QString secretMessage = ui->lineEdit_secret_message->text();
 
-    if (!checkConditionOfSecretMessge(ui->lineEdit_secret_message->text())) {
+    if (!checkConditionOfSecretMessge(secretMessage)) {
         return;
     }
 
     QStringList binaryBitStreams = convertSecretMessageToBinaryBitStreams(secretMessage);
-
-
-    for (int i = 0; i < binaryBitStreams.size(); ++i) {
-        qDebug() << binaryBitStreams.at(i);
-    }
 
     QString coverText = ui->plainTextEdit_cover_text->toPlainText();
 
@@ -286,6 +287,5 @@ void MainWindow::on_pushButton_browse_file_clicked()
     }
     QTextStream in(&f);
     ui->plainTextEdit_cover_text->document()->setPlainText(in.readAll());
-//    qDebug() << f.size() << in.readAll();
     f.close();
 }

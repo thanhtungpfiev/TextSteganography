@@ -36,8 +36,9 @@ private slots:
 
 private:
     void initMapAlphabetToEncode();
-    void printMapAlphabetToEncode();
     QStringList convertSecretMessageToBinaryBitStreams(const QString &secretMessage);
+    QString convertCharacterToBinaryAscii8bits(const QChar &character);
+    QStringList splitBitStreamsToPairBits(const QString &bitStreams);
     QStringList convertTextToSentences(const QString &text);
     void convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences);
     void remove(QStringList& list, const QStringList& toDelete);
