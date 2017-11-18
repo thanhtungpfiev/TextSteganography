@@ -38,6 +38,7 @@ private slots:
 
 private:
     void initMapAlphabetVietnameseToEncode();
+    void initMapAlphabetVietnameseWithUtf8Value();
     QStringList convertSecretMessageToBinaryBitStreams(const QString &secretMessage);
     QString convertCharacterToBinaryAscii8bits(const QChar &character);
     QStringList splitBitStreamsToPairBits(const QString &bitStreams);
@@ -54,6 +55,7 @@ private:
 
 private:
     QMap<QString, QString> mMapAlphabetVietnameseToEncode;
+    QMap<QString, QString> mMapAlphabetVietnameseWithUtf8Value;
     QStringList mSummary;
 
 private:

@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(trUtf8("Text Steganography Simulation"));
 
     initMapAlphabetVietnameseToEncode();
-
+    initMapAlphabetVietnameseWithUtf8Value();
 }
 
 MainWindow::~MainWindow()
@@ -66,6 +66,7 @@ void MainWindow::initMapAlphabetVietnameseToEncode()
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Í"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Ì"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("Ĩ"), "00");
+    mMapAlphabetVietnameseToEncode.insert(trUtf8("Ỉ"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("G"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("L"), "00");
     mMapAlphabetVietnameseToEncode.insert(trUtf8("N"), "00");
@@ -135,17 +136,158 @@ void MainWindow::initMapAlphabetVietnameseToEncode()
     mMapAlphabetVietnameseToEncode.insert(trUtf8("X"), "11");
 }
 
+void MainWindow::initMapAlphabetVietnameseWithUtf8Value()
+{
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Á"), "1100001110000001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("À"), "1100001110000000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ã"), "1100001110000011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ạ"), "111000011011101010100000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ả"), "111000011011101010100010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ă"), "1100010010000010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ắ"), "111000011011101010101110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ằ"), "111000011011101010110000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ẵ"), "111000011011101010110100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ặ"), "111000011011101010110110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ẳ"), "111000011011101010110010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Â"), "1100001110000010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ấ"), "111000011011101010100100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ầ"), "111000011011101010100110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ẫ"), "111000011011101010101010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ậ"), "111000011011101010101100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ẩ"), "111000011011101010101000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Đ"), "1100010010010000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("É"), "1100001110001001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("È"), "1100001110001000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ẽ"), "111000011011101010111100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ẹ"), "111000011011101010111000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ẻ"), "111000011011101010111010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ê"), "1100001110001010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ế"), "111000011011101010111110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ề"), "111000011011101110000000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ễ"), "111000011011101110000100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ệ"), "111000011011101110000110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ể"), "111000011011101110000010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Í"), "1100001110001101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ì"), "1100001110001100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ĩ"), "1100010010101000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ị"), "111000011011101110001010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ỉ"), "111000011011101110001000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ó"), "1100001110010011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ò"), "1100001110010010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Õ"), "1100001110010101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ọ"), "111000011011101110001100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ỏ"), "111000011011101110001110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ô"), "1100001110010100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ố"), "111000011011101110010000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ồ"), "111000011011101110010010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ỗ"), "111000011011101110010110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ộ"), "111000011011101110011000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ổ"), "111000011011101110010100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ơ"), "1100011010100000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ớ"), "111000011011101110011010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ờ"), "111000011011101110011100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ỡ"), "111000011011101110100000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ợ"), "111000011011101110100010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ở"), "111000011011101110011110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ú"), "1100001110011010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ù"), "1100001110011001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ũ"), "1100010110101000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ụ"), "111000011011101110100100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ủ"), "111000011011101110100110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ư"), "1100011010101111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ứ"), "111000011011101110101000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ừ"), "111000011011101110101010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ữ"), "111000011011101110101110");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ự"), "111000011011101110110000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ử"), "111000011011101110101100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ý"), "1100001110011101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ỳ"), "111000011011101110110010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ỹ"), "111000011011101110111000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ỵ"), "111000011011101110110100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("Ỷ"), "111000011011101110110110");
+
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("á"), "1100001110100001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("à"), "1100001110100000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ã"), "1100001110100011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ạ"), "111000011011101010100001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ả"), "111000011011101010100011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ă"), "1100010010000011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ắ"), "111000011011101010101111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ằ"), "111000011011101010110001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ẵ"), "111000011011101010110101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ặ"), "111000011011101010110111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ẳ"), "111000011011101010110011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("â"), "1100001110100010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ấ"), "111000011011101010100101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ầ"), "111000011011101010100111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ẫ"), "111000011011101010101011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ậ"), "111000011011101010101101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ẩ"), "111000011011101010101001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("đ"), "1100010010010001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("é"), "1100001110101001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("è"), "1100001110101000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ẽ"), "111000011011101010111101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ẹ"), "111000011011101010111001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ẻ"), "111000011011101010111011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ê"), "1100001110101010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ế"), "111000011011101010111111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ề"), "111000011011101110000001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ễ"), "111000011011101110000101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ệ"), "111000011011101110000111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ể"), "111000011011101110000011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("í"), "1100001110101101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ì"), "1100001110101100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ĩ"), "1100010010101001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ị"), "111000011011101110001011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ỉ"), "111000011011101110001001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ó"), "1100001110110011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ò"), "1100001110110010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("õ"), "1100001110110101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ọ"), "111000011011101110001101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ỏ"), "111000011011101110001111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ô"), "1100001110110100");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ố"), "111000011011101110010001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ồ"), "111000011011101110010011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ỗ"), "111000011011101110010111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ộ"), "111000011011101110011001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ổ"), "111000011011101110010101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ơ"), "1100011010100001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ớ"), "111000011011101110011011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ờ"), "111000011011101110011101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ỡ"), "111000011011101110100001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ợ"), "111000011011101110100011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ở"), "111000011011101110011111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ú"), "1100001110111010");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ù"), "1100001110111001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ũ"), "1100010110101001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ụ"), "111000011011101110100101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ủ"), "111000011011101110100111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ư"), "1100011010110000");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ứ"), "111000011011101110101001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ừ"), "111000011011101110101011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ữ"), "111000011011101110101111");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ự"), "111000011011101110110001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ử"), "111000011011101110101101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ý"), "1100001110111101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ỳ"), "111000011011101110110011");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ỹ"), "111000011011101110111001");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ỵ"), "111000011011101110110101");
+    mMapAlphabetVietnameseWithUtf8Value.insert(trUtf8("ỷ"), "111000011011101110110111");
+}
+
 QStringList MainWindow::convertSecretMessageToBinaryBitStreams(const QString &secretMessage)
 {
-//    QStringList binaryBitStreams;
-//    for (int i = 0; i < secretMessage.size(); ++i) {
-//        QString character = secretMessage.at(i);
-//        if (QObject::trUtf8(character) == "Á") {
-//            binaryBitStreams << "1100001110000001";
-//        }
-//    }
-//    qDebug() << binaryBitStreams;
-//    return binaryBitStreams;
+    QStringList binaryBitStreams;
+    for (int i = 0; i < secretMessage.size(); ++i) {
+        QChar character = secretMessage.at(i);
+        if (QString(character).toUtf8() == "Á") {
+            binaryBitStreams << "1100001110000001";
+        } else {
+            binaryBitStreams << convertCharacterToBinaryAscii8bits(character);
+        }
+    }
+    qDebug() << binaryBitStreams;
+    return binaryBitStreams;
 }
 
 QString MainWindow::convertCharacterToBinaryAscii8bits(const QChar &character)
