@@ -61,7 +61,8 @@ private:
 private:
     static const int NUMBER_OF_SECRET_MESSAGE_CHARACTERS_MAX;
     static const int NUMBER_OF_BITS_OF_CHARACTER_ASCII;
-    static const int NUMBER_OF_BITS_OF_CHARACTER_UTF8;
+    static const int NUMBER_OF_BITS_OF_CHARACTER_UTF8_TYPE_I;
+    static const int NUMBER_OF_BITS_OF_CHARACTER_UTF8_TYPE_II;
 
 private:
     Ui::MainWindow *ui;
