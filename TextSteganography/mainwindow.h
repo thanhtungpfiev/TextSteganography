@@ -43,7 +43,7 @@ private:
     QString convertCharacterToBinaryAscii8bits(const QChar &character);
     QStringList splitBitStreamsToPairBits(const QString &bitStreams);
     QStringList convertTextToSentences(const QString &text);
-    void convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences);
+    bool convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences);
     void remove(QStringList& list, const QStringList& toDelete);
     QStringList convertStegoTextToPairBits(const QStringList &sentences);
     int convertBinaryAsciiToInt(const QString &binaryAscii);

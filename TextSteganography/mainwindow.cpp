@@ -458,11 +458,12 @@ QStringList MainWindow::convertTextToSentences(const QString &text)
     return sentences;
 }
 
-void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences)
+bool MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences)
 {
     //    qDebug() << "pairBits: " << pairBits;
     //    qDebug() << "before sentences: " << sentences;
 
+    bool result = false;
     int i;
     for (i = 0; i < sentences.size(); ++i) {
         QString sentence = sentences.at(i);
@@ -473,17 +474,20 @@ void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList
         if (pairBits == mMapAlphabetVietnameseToEncode.value(QString(firstCharacter)).toUtf8()) {
             qDebug() << sentences.at(i);
             mSummaryBlob << sentences.at(i);
+            result = true;
             break;
         }
     }
-    if (i >= sentences.size()) {
-        i = sentences.size() - 1;
+    if (result == true) {
+        QStringList listToDelete;
+        for (int j = 0; j <= i; ++j) {
+            listToDelete << sentences.at(j);
+        }
+        remove(sentences, listToDelete);
+
     }
-    QStringList listToDelete;
-    for (int j = 0; j <= i; ++j) {
-        listToDelete << sentences.at(j);
-    }
-    remove(sentences, listToDelete);
+
+    return result;
     //    qDebug() << "listToDelete: " << listToDelete;
     //    qDebug() << "after sentences: " << sentences;
 }
@@ -587,14 +591,20 @@ void MainWindow::on_pushButton_encoding_clicked()
         QStringList pairBitstreams = splitBitStreamsToPairBits(binaryBitStream);
         for (int j = 0; j < pairBitstreams.size(); ++j) {
             QString pairBits = pairBitstreams.at(j);
-            convertPairBitsToStegoText(pairBits, simplifiedSentences);
-            if (j != pairBitstreams.size() - 1) {
-                if (simplifiedSentences.isEmpty()) {
-                    QMessageBox message(QMessageBox::Warning, "Notification", "Cover text is not enough capacity to stego secret message");
-                    message.exec();
-                    return;
-                }
+            if (!convertPairBitsToStegoText(pairBits, simplifiedSentences)) {
+                QMessageBox message(QMessageBox::Warning, "Notification", "Cover text is not enough capacity to stego secret message");
+                message.exec();
+                return;
             }
+            qDebug() << "pairBits: " << pairBits;
+            qDebug() << "simplifiedSentences.size(): " << simplifiedSentences.size();
+//            if (j != pairBitstreams.size()) {
+//                if (simplifiedSentences.isEmpty()) {
+//                    QMessageBox message(QMessageBox::Warning, "Notification", "Cover text is not enough capacity to stego secret message");
+//                    message.exec();
+//                    return;
+//                }
+//            }
         }
         qDebug() << "mSummaryBlob: " << mSummaryBlob;
         for (int i = 0; i < mSummaryBlob.size(); ++i) {
@@ -604,9 +614,9 @@ void MainWindow::on_pushButton_encoding_clicked()
         mSummary.push_back(mSummaryBlob);
         mSummaryBlob.clear();
     }
-    for (int i = 0; i < mSummary.size(); ++i) {
-        qDebug() << mSummary.at(i);
-    }
+//    for (int i = 0; i < mSummary.size(); ++i) {
+//        qDebug() << mSummary.at(i);
+//    }
 }
 
 void MainWindow::on_pushButton_decoding_clicked()
