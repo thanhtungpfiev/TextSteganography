@@ -420,7 +420,6 @@ QStringList MainWindow::convertSecretMessageToBinaryBitStreams(const QString &se
             binaryBitStreams << convertCharacterToBinaryAscii8bits(character);
         }
     }
-    qDebug() << binaryBitStreams;
     return binaryBitStreams;
 }
 
@@ -460,9 +459,6 @@ QStringList MainWindow::convertTextToSentences(const QString &text)
 
 bool MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences)
 {
-    //    qDebug() << "pairBits: " << pairBits;
-    //    qDebug() << "before sentences: " << sentences;
-
     bool result = false;
     int i;
     for (i = 0; i < sentences.size(); ++i) {
@@ -472,7 +468,6 @@ bool MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList
         }
         QChar firstCharacter = sentence.at(0);
         if (pairBits == mMapAlphabetVietnameseToEncode.value(QString(firstCharacter)).toUtf8()) {
-            qDebug() << sentences.at(i);
             mSummaryBlob << sentences.at(i);
             result = true;
             break;
@@ -488,8 +483,7 @@ bool MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList
     }
 
     return result;
-    //    qDebug() << "listToDelete: " << listToDelete;
-    //    qDebug() << "after sentences: " << sentences;
+
 }
 
 void MainWindow::remove(QStringList &list, const QStringList &toDelete)
@@ -527,7 +521,7 @@ void MainWindow::resetApp()
 {
     ui->lineEdit_secret_message->clear();
     ui->plainTextEdit_cover_text->clear();
-    ui->plainTextEdit_cover_text->clear();
+    ui->plainTextEdit_stego_text->clear();
     ui->lineEdit_secret_message_result->clear();
     mSummary.clear();
 }
@@ -596,27 +590,24 @@ void MainWindow::on_pushButton_encoding_clicked()
                 message.exec();
                 return;
             }
-            qDebug() << "pairBits: " << pairBits;
-            qDebug() << "simplifiedSentences.size(): " << simplifiedSentences.size();
-//            if (j != pairBitstreams.size()) {
-//                if (simplifiedSentences.isEmpty()) {
-//                    QMessageBox message(QMessageBox::Warning, "Notification", "Cover text is not enough capacity to stego secret message");
-//                    message.exec();
-//                    return;
-//                }
-//            }
         }
-        qDebug() << "mSummaryBlob: " << mSummaryBlob;
-        for (int i = 0; i < mSummaryBlob.size(); ++i) {
-            QString tempString = mSummaryBlob.at(i);
-            ui->plainTextEdit_stego_text->appendPlainText(tempString.append("."));
-        }
+//        for (int i = 0; i < mSummaryBlob.size(); ++i) {
+//            QString tempString = mSummaryBlob.at(i);
+//            ui->plainTextEdit_stego_text->appendPlainText(tempString.append("."));
+//        }
         mSummary.push_back(mSummaryBlob);
         mSummaryBlob.clear();
     }
-//    for (int i = 0; i < mSummary.size(); ++i) {
-//        qDebug() << mSummary.at(i);
-//    }
+
+    QString generalSentence;
+    for (int i = 0; i < mSummary.size(); ++i) {
+        QStringList blobSentence = mSummary.at(i);
+        for (int j = 0; j < blobSentence.size(); ++j) {
+            QString tempString = blobSentence.at(j);
+            generalSentence += tempString.append(". ");
+        }
+    }
+    ui->plainTextEdit_stego_text->document()->setPlainText(generalSentence);
 }
 
 void MainWindow::on_pushButton_decoding_clicked()
@@ -664,6 +655,5 @@ void MainWindow::on_pushButton_browse_file_clicked()
     QTextStream in(&f);
     in.setCodec("UTF-8");
     ui->plainTextEdit_cover_text->document()->setPlainText(in.readAll());
-    //    qDebug() << f.size() << in.readAll();
     f.close();
 }
