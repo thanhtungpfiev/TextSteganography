@@ -18,6 +18,7 @@
 
 const int MainWindow::NUMBER_OF_SECRET_MESSAGE_CHARACTERS_MAX = 10;
 const int MainWindow::NUMBER_OF_BITS_OF_CHARACTER_ASCII = 8;
+const int MainWindow::LIMIT_OF_CHARACTER_ASCII = 127;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -76,7 +77,7 @@ QStringList MainWindow::convertSecretMessageToBinaryBitStreams(const QString &se
     QStringList binaryBitStreams;
     for (int i = 0; i < secretMessage.size(); ++i) {
         QString characterInBits = convertCharacterToBinaryAscii8bits(secretMessage.at(i));
-        binaryBitStreams << splitBitStreamsToPairBits(characterInBits);
+        binaryBitStreams << characterInBits;
     }
     return binaryBitStreams;
 }
@@ -113,11 +114,9 @@ QStringList MainWindow::convertTextToSentences(const QString &text)
     return sentences;
 }
 
-void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences)
+bool MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences)
 {
-    qDebug() << "pairBits: " << pairBits;
-    qDebug() << "before sentences: " << sentences;
-
+    bool result =  false;
     int i;
     for (i = 0; i < sentences.size(); ++i) {
         QString sentence = sentences.at(i);
@@ -131,21 +130,19 @@ void MainWindow::convertPairBitsToStegoText(const QString &pairBits, QStringList
         }
 
         if (pairBits == mMapAlphabetToEncode.value(firstCharacter)) {
-            qDebug() << sentences.at(i);
-            mSummary << sentences.at(i);
+            mSummaryBlob << sentences.at(i);
+            result = true;
             break;
         }
     }
-    if (i >= sentences.size()) {
-        i = sentences.size() - 1;
+    if (result == true) {
+        QStringList listToDelete;
+        for (int j = 0; j <= i; ++j) {
+            listToDelete << sentences.at(j);
+        }
+        remove(sentences, listToDelete);
     }
-    QStringList listToDelete;
-    for (int j = 0; j <= i; ++j) {
-        listToDelete << sentences.at(j);
-    }
-    remove(sentences, listToDelete);
-    qDebug() << "listToDelete: " << listToDelete;
-    qDebug() << "after sentences: " << sentences;
+    return result;
 }
 
 void MainWindow::remove(QStringList &list, const QStringList &toDelete)
@@ -187,7 +184,7 @@ void MainWindow::resetApp()
 {
     ui->lineEdit_secret_message->clear();
     ui->plainTextEdit_cover_text->clear();
-    ui->plainTextEdit_cover_text->clear();
+    ui->plainTextEdit_stego_text->clear();
     ui->lineEdit_secret_message_result->clear();
     mSummary.clear();
 }
@@ -206,6 +203,14 @@ bool MainWindow::checkConditionOfSecretMessge(const QString &secretMessage)
         return false;
     }
 
+    for (int i = 0; i < secretMessage.size(); ++i) {
+        if (secretMessage.at(i).unicode() > LIMIT_OF_CHARACTER_ASCII) {
+            QMessageBox message(QMessageBox::Warning, "Notification", "Secret message has non-English character");
+            message.exec();
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -221,6 +226,7 @@ bool MainWindow::checkConditionOfCoverText(const QString &coverText)
 
 void MainWindow::on_pushButton_encoding_clicked()
 {
+    mSummaryBlob.clear();
     mSummary.clear();
     ui->plainTextEdit_stego_text->clear();
 
@@ -246,31 +252,51 @@ void MainWindow::on_pushButton_encoding_clicked()
         simplifiedSentences << sentences.at(i).simplified();
     }
     for (int i = 0; i < binaryBitStreams.size(); ++i) {
-        QString pairBits = binaryBitStreams.at(i);
-        convertPairBitsToStegoText(pairBits, simplifiedSentences);
-        if (i != binaryBitStreams.size() - 1) {
-            if (simplifiedSentences.isEmpty()) {
+        QString binaryBitStream = binaryBitStreams.at(i);
+        QStringList pairBitstreams = splitBitStreamsToPairBits(binaryBitStream);
+        for (int j = 0; j < pairBitstreams.size(); ++j) {
+            QString pairBits = pairBitstreams.at(j);
+            if (!convertPairBitsToStegoText(pairBits, simplifiedSentences)) {
                 QMessageBox message(QMessageBox::Warning, "Notification", "Cover text is not enough capacity to stego secret message");
                 message.exec();
                 return;
             }
         }
+//        for (int i = 0; i < mSummaryBlob.size(); ++i) {
+//            QString tempString = mSummaryBlob.at(i);
+//            ui->plainTextEdit_stego_text->appendPlainText(tempString.append("."));
+//        }
+        mSummary.push_back(mSummaryBlob);
+        mSummaryBlob.clear();
     }
-    qDebug() << "summary: "  << mSummary;
+
+    QString generalSentence;
     for (int i = 0; i < mSummary.size(); ++i) {
-        QString tempString = mSummary.at(i);
-        ui->plainTextEdit_stego_text->appendPlainText(tempString.append("."));
+        QStringList blobSentence = mSummary.at(i);
+        for (int j = 0; j < blobSentence.size(); ++j) {
+            QString tempString = blobSentence.at(j);
+            generalSentence += tempString.append(". ");
+        }
     }
+    ui->plainTextEdit_stego_text->document()->setPlainText(generalSentence);
 }
+
 
 void MainWindow::on_pushButton_decoding_clicked()
 {
-    QStringList binaryBitStreams = convertStegoTextToPairBits(mSummary);
     QString secretMessageResult;
-    for (int i = 0; i < binaryBitStreams.size(); i = i + 4) {
-        QString tempCharAtBit = binaryBitStreams.at(i) + binaryBitStreams.at(i + 1)
-                + binaryBitStreams.at(i + 2) + binaryBitStreams.at(i + 3);
-        secretMessageResult += QString(QChar(convertBinaryAsciiToInt(tempCharAtBit)));
+    for (int i = 0; i < mSummary.size(); ++i) {
+        QStringList blob = mSummary.at(i);
+        QStringList binaryBitStreams = convertStegoTextToPairBits(blob);
+        if (binaryBitStreams.size() == NUMBER_OF_BITS_OF_CHARACTER_ASCII / 2) {
+            for (int j = 0; j < binaryBitStreams.size(); j = j + 4) {
+                QString tempCharAtBit = binaryBitStreams.at(j) + binaryBitStreams.at(j + 1)
+                        + binaryBitStreams.at(j + 2) + binaryBitStreams.at(j + 3);
+                secretMessageResult += QString(QChar(convertBinaryAsciiToInt(tempCharAtBit)));
+            }
+        } else {
+            continue;
+        }
     }
     ui->lineEdit_secret_message_result->setText(secretMessageResult);
 }

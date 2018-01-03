@@ -40,7 +40,7 @@ private:
     QString convertCharacterToBinaryAscii8bits(const QChar &character);
     QStringList splitBitStreamsToPairBits(const QString &bitStreams);
     QStringList convertTextToSentences(const QString &text);
-    void convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences);
+    bool convertPairBitsToStegoText(const QString &pairBits, QStringList &sentences);
     void remove(QStringList& list, const QStringList& toDelete);
     QStringList convertStegoTextToPairBits(const QStringList &sentences);
     int convertBinaryAsciiToInt(const QString &binaryAscii);
@@ -52,11 +52,13 @@ private:
 
 private:
     QMap<QChar, QString> mMapAlphabetToEncode;
-    QStringList mSummary;
+    QStringList mSummaryBlob;
+    QList<QStringList> mSummary;
 
 private:
     static const int NUMBER_OF_SECRET_MESSAGE_CHARACTERS_MAX;
     static const int NUMBER_OF_BITS_OF_CHARACTER_ASCII;
+    static const int LIMIT_OF_CHARACTER_ASCII;
 
 private:
     Ui::MainWindow *ui;
